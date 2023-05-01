@@ -73,7 +73,7 @@ class CrmApi( ):
         return cpt_en_poste
 
     # Propriétaire actuel
-    def update_owner(self):
+    def get_owner(self):
         self.owner_id=self.api_client.crm.companies.basic_api.get_by_id(7496989169,properties=["hubspot_owner_id"]).to_dict()
         self.owner_id=self.owner_id["properties"]["hubspot_owner_id"]
         self.owner_data=self.api_client.crm.owners.owners_api.get_by_id(self.owner_id).to_dict()
@@ -86,8 +86,8 @@ class CrmApi( ):
                     "valeur_totale_des_deals":self.total_deal_value() ,
                     "valeur_totale_des_deals_ponderee":self.total_deal_value_weighted(),
                     "nombre_de_points_de_contacts_en_poste": self.count_en_poste(),
-                    "nom_du_dirigeant":self.update_owner()[1],
-                    "prenom_du_dirigeant":self.update_owner()[0]})
+                    "nom_du_dirigeant":self.get_owner()[1],
+                    "prenom_du_dirigeant":self.get_owner()[0]})
                     self.api_client.crm.companies.basic_api.update(simple_public_object_input=self.update_montant_tot_deals,company_id=comp_id)
                     return print("company updated")
             except ApiException as update:
